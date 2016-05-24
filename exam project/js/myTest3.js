@@ -169,6 +169,7 @@ var buttonClicked = function() {
 		//user's done with the test.
 		var responseObj = collectResponseData();
 		//output responseObj to firebase
+		outputData(responseObj);
 		return;
 
 	}
@@ -191,6 +192,13 @@ var collectResponseData = function() {
 	return output;
 }
 
+var outputData = function(oput) {
+	var newKey = firebase.database().ref().child('responses').push().key;
+	var updates = {};
+	updates['/responses/' + newKey] = updates;
+
+	firebase.database().ref().update(updates);
+}
 
 
 
