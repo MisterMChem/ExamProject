@@ -199,7 +199,7 @@ var outputData = function(oput) {
 
 	firebase.database().ref().update(updates);
 
-	readFirebaseData();
+	readData();
 }
 
 var readData = function() {
