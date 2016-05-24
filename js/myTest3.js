@@ -204,7 +204,7 @@ var outputData = function(oput) {
 
 var readData = function() {
 	firebase.database().ref('/responses/').once('value').then(function(snapshot) {
-		console.log(snapshot);
+		console.log(snapshot.val());
 	});
 
 }
