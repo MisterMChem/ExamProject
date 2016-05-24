@@ -195,7 +195,7 @@ var collectResponseData = function() {
 var outputData = function(oput) {
 	var newKey = firebase.database().ref().child('responses').push().key;
 	var updates = {};
-	updates['responses/' + newKey] = updates;
+	updates['/responses/' + newKey] = updates;
 
 	firebase.database().ref().update(updates);
 }
