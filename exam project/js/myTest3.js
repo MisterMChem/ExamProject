@@ -193,15 +193,11 @@ var collectResponseData = function() {
 }
 
 var outputData = function(oput) {
-	// firebase.database().ref('/responses/').once('value').then(function(snapshot) {
-	// 	console.log(snapshot);
-	// });
-
 	var newKey = firebase.database().ref().child('responses').push().key;
 	var updates = {};
-	newKey = '/responses/' + newKey;
+	updates['/responses/' + newKey] = oput;
 
-	firebase.database().ref(newKey).update(updates);
+	firebase.database().ref().update(updates);
 }
 
 
