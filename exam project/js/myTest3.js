@@ -193,15 +193,15 @@ var collectResponseData = function() {
 }
 
 var outputData = function(oput) {
-	firebase.database().ref('/responses/').once('value').then(function(snapshot) {
-		console.log(snapshot);
-	});
+	// firebase.database().ref('/responses/').once('value').then(function(snapshot) {
+	// 	console.log(snapshot);
+	// });
 
-	// var newKey = firebase.database().ref().child('responses').push().key;
-	// var updates = {};
-	// updates['/responses/' + newKey] = updates;
+	var newKey = firebase.database().ref().child('responses').push().key;
+	var updates = {};
+	newKey = '/responses/' + newKey;
 
-	// firebase.database().ref().update(updates);
+	firebase.database().ref(newKey).update(updates);
 }
 
 
