@@ -199,7 +199,14 @@ var sendData = function(opobj) {
   	var updates = {};
   	updates['/responses/' + newPostKey] = opobj;
   	firebase.database().ref().update(updates);
+  	readData();
+}
 
+var readData = function() {
+	firebase.database().ref('/responses/').once('value').then(function(snapshot) {
+  		// ...
+  		console.log(snapshot.val());
+	});
 }
 
 
