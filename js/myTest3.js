@@ -211,13 +211,12 @@ var readData = function() {
 		for (var i = 0; i<keys.length; i++) {
 			var response = snapshot[keys[i]];
 			var responseKeys = Object.keys(response);
+			console.log(response);
 			var scoreTotal = 0;
 			for (var x = 0; x< responseKeys.length; x++) {
 				scoreTotal+=response[responseKeys[x]];
 			}
-			console.log(scoreTotal);
 			totalPercent+=scoreTotal/responseKeys.length;
-			console.log("Total percent: " + totalPercent);
 		}
 		totalPercent = totalPercent/keys.length;
 
