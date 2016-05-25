@@ -204,6 +204,22 @@ var outputData = function(oput) {
 
 var readData = function() {
 	firebase.database().ref('/responses/').once('value').then(function(snapshot) {
+		$("#main").hide();
+		$("#scoreReport").show();
+		var keys = Object.keys(snapshot);
+		var totalPercent = 0;
+		for (var i = 0; i<keys.length; i++) {
+			var response = snapshot[keys[i]];
+			var responseKeys = Object.keys(response);
+			var scoreTotal = 0;
+			for (var x = 0; x< responseKeys.length; x++) {
+				scoreTotal+=response[responseKeys[x]];
+			}
+			totalPercent+=(scoreTotal/responseKeys.length);
+		}
+		totalPercent = totalPercent/keys.length;
+
+		$("#totalScoreDiv").html("Class Average: " + totalPercent);
 		console.log(snapshot.val());
 	});
 
