@@ -209,7 +209,7 @@ var readData = function() {
 		var keys = Object.keys(snapshot);
 		var totalPercent = 0;
 		for (var i = 0; i<keys.length; i++) {
-			var response = snapshot[keys[i]];
+			var response = snapshot.val()[keys[i]];
 			var responseKeys = Object.keys(response);
 			console.log(response);
 			var scoreTotal = 0;
