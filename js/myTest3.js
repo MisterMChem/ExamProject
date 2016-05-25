@@ -222,7 +222,7 @@ var readData = function() {
   			}
   			classScore+=responseScore;
   		}
-  		classAverage = classScore / (keys.length * questionArray1);
+  		classAverage = classScore / (keys.length * questionArray1.length);
   		$("#main").hide();
   		$("#scoreReport").show();
   		$("#scoreReport").html("Your score: " + studentScore + "<br>Class Average: " + classAverage);
