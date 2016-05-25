@@ -206,6 +206,26 @@ var readData = function() {
 	firebase.database().ref('/responses/').once('value').then(function(snapshot) {
   		// ...
   		console.log(snapshot.val());
+  		//first calculate student score
+  		var studentScore = correctCounter / questionArray1.length;
+  		var classAverage = 0;
+  		var classScore = 0;
+  		var keys = Object.keys(snapshot.val());
+  		for (var i = 0; i< keys.length; i++) {
+  			var key = keys[i];
+  			var response = snapshot.val()[key];
+  			var responseKeys = Object.keys(response);
+  			var responseScore = 0;
+  			for (var x = 0; x<responseKeys.length; x++) {
+  				var responseKey = responseKeys[i];
+  				responseScore+=response[responseKey];
+  			}
+  			classScore+=responseScore;
+  		}
+  		classAverage = classScore / (keys.length * questionArray1);
+  		$("#main").hide();
+  		$("#scoreReport").show();
+  		$("#scoreReport").html("Your score: " + studentScore + "<br>Class Average: " + classAverage);
 	});
 }
 
