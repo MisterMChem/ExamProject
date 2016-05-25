@@ -206,7 +206,7 @@ var readData = function() {
 	firebase.database().ref('/responses/').once('value').then(function(snapshot) {
 		$("#main").hide();
 		$("#scoreReport").show();
-		var keys = Object.keys(snapshot);
+		var keys = Object.keys(snapshot.val());
 		var totalPercent = 0;
 		for (var i = 0; i<keys.length; i++) {
 			var response = snapshot.val()[keys[i]];
