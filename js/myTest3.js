@@ -247,7 +247,7 @@ var readData = function() {
   		classAverage = classAverage.toFixed(2);
   		$("#main").hide();
   		$("#scoreReport").show();
-  		$("#scoreReport").html("Your score: " + studentScore + "<br>Class Average: " + classAverage);
+  		$("#totalScoreDiv").html("Your score: " + studentScore + "<br>Class Average: " + classAverage);
   		drawChart(outputArray);
 	});
 }
