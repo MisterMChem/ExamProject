@@ -148,7 +148,7 @@ var buttonClicked = function() {
 			var choiceName = "choice" + (i+1);
 			var selection = document.getElementById(choiceName).innerHTML;
 			selectedAnswers.push(selection);
-			if (selection == correctAnswers[questionCounter]) {
+			if (answerArray[questionCounter].indexOf(selection) == correctAnswers[questionCounter]) {
 				correctCounter++;
 				//do other stuff if correct
 			}
@@ -166,12 +166,8 @@ var buttonClicked = function() {
 	//next question please
 	questionCounter++;
 	if (questionCounter >= questionArray1.length) {
-		//user's done with the test.
-		var responseObj = collectResponseData();
-		//output responseObj to firebase
-		outputData(responseObj);
-		return;
-
+		//test is over
+		collectData();
 	}
 	displayQuestion();
 	displayAnswers();
@@ -179,52 +175,60 @@ var buttonClicked = function() {
 
 }
 
-var collectResponseData = function() {
-	var output = {};
-	for (var i = 0; i < selectedAnswers.length; i++) {
-		var objKey = "question" + i;
-		var outputVal = 0;
+var collectData = function() {
+	//loop through selected answer
+	//determine if each is correct
+	//generate an output: 1 = correct; 0 otherwise
+	var outputObject = {};
+	for (var i =0; i< selectedAnswers.length; i++) {
+		var outputValue = 0;
 		if (answerArray[i].indexOf(selectedAnswers[i]) == correctAnswers[i]) {
-			outputVal = 1;
+			//question is correct
+			outputValue = 1;
 		}
-		output[objKey] = outputVal;
+		var outputKey = "question" + i;
+		outputObject[outputKey] = outputValue;
 	}
-	return output;
+	sendData(outputObject);
 }
 
-var outputData = function(oput) {
-	var newKey = firebase.database().ref().child('responses').push().key;
-	var updates = {};
-	updates['/responses/' + newKey] = oput;
-
-	firebase.database().ref().update(updates);
-
-	readData();
+var sendData = function(opobj) {	
+	// Get a key for a new Post.
+  	var newPostKey = firebase.database().ref().child('responses').push().key;
+ 	// Write the new response's data simultaneously to the database.
+  	var updates = {};
+  	updates['/responses/' + newPostKey] = opobj;
+  	firebase.database().ref().update(updates);
+  	readData();
 }
 
 var readData = function() {
 	firebase.database().ref('/responses/').once('value').then(function(snapshot) {
-		$("#main").hide();
-		$("#scoreReport").show();
-		var keys = Object.keys(snapshot.val());
-		var totalPercent = 0;
-		for (var i = 0; i<keys.length; i++) {
-			var response = snapshot.val()[keys[i]];
-			var responseKeys = Object.keys(response);
-			console.log(response);
-			var scoreTotal = 0;
-			for (var x = 0; x< responseKeys.length; x++) {
-				scoreTotal+=response[responseKeys[x]];
-			}
-			totalPercent+=scoreTotal/responseKeys.length;
-		}
-		totalPercent = totalPercent/keys.length * 100;
-
-		$("#totalScoreDiv").html("Class Average: " + totalPercent);
-		console.log(snapshot.val());
+  		// ...
+  		console.log(snapshot.val());
+  		//first calculate student score
+  		var studentScore = 100*correctCounter / questionArray1.length;
+  		var classAverage = 0;
+  		var classScore = 0;
+  		var keys = Object.keys(snapshot.val());
+  		for (var i = 0; i< keys.length; i++) {
+  			var key = keys[i];
+  			var response = snapshot.val()[key];
+  			var responseKeys = Object.keys(response);
+  			var responseScore = 0;
+  			for (var x = 0; x<responseKeys.length; x++) {
+  				var responseKey = responseKeys[x];
+  				responseScore+=response[responseKey];
+  			}
+  			classScore+=responseScore;
+  		}
+  		classAverage = 100*classScore / (keys.length * questionArray1.length);
+  		$("#main").hide();
+  		$("#scoreReport").show();
+  		$("#scoreReport").html("Your score: " + studentScore + "<br>Class Average: " + classAverage);
 	});
-
 }
+
 
 
 
