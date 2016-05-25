@@ -256,7 +256,7 @@ var drawChart = function(withData) {
         var data = google.visualization.arrayToDataTable(withData);
 
         var options = {
-          title: 'Company Performance',
+          title: 'Test Performance',
           hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
           vAxis: {minValue: 0}
         };
